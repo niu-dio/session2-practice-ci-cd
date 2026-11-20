@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   train:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       changed: ${{ steps.changes.outputs.changed }}
     steps:
@@ -42,7 +42,7 @@ jobs:
       - uses: actions/setup-python@v6
         if: steps.changes.outputs.changed == 'true'
         with:
-          python-version: '3.9'
+          python-version: '3.12'
       - name: Train linear model
         if: steps.changes.outputs.changed == 'true'
         run: |
@@ -58,7 +58,7 @@ jobs:
   publish:
     if: github.event_name == 'push' && needs.train.outputs.changed == 'true'
     needs: train
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
     steps:
